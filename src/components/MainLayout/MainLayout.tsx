@@ -34,9 +34,9 @@ MainLayout.Content = function Content(
       style={{
         borderRadius: ".375rem",
         backgroundColor: "white",
-        padding: "1.5rem",
+        padding: "2.5rem",
       }}
-      gap={props.gap ?? "md"}
+      gap={props.gap ?? "xl"}
     >
       {props.children}
     </Stack>
