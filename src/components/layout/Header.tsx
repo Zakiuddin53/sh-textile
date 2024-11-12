@@ -10,13 +10,17 @@ export function Header() {
           <Link href="/" className="no-underline">
             <Title order={2} c="blue">
               SH TEXTILE
+              
             </Title>
           </Link>
 
           <Group>
+            <Link href="/" className="no-underline">
+              <Button variant="filled">Client Measurement</Button>
+            </Link>
             <Link href="/records" className="no-underline">
-              <Button variant="light" leftSection={<IconDatabase size={20} />}>
-                View Records
+              <Button variant="filled" leftSection={<IconDatabase size={20} />}>
+                Client Records
               </Button>
             </Link>
           </Group>

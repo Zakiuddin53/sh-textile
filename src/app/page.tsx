@@ -1,9 +1,5 @@
-import { Welcome } from "@/components/Welcome";
+import ClientMeasurementForm from "@/components/forms/ClientMeasurementForm";
 
 export default function Home() {
-  return (
-    <main>
-      <Welcome />
-    </main>
-  );
+  return <ClientMeasurementForm />;
 }
