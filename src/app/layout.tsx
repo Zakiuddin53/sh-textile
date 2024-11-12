@@ -1,3 +1,7 @@
+import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -25,10 +29,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <MantineProvider
+          defaultColorScheme="auto"
+          theme={{
+            primaryColor: 'blue',
+            fontFamily: 'var(--font-geist-sans)',
+            headings: { fontFamily: 'var(--font-geist-sans)' },
+          }}
+        >
+          <Notifications />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );
