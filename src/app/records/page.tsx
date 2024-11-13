@@ -11,7 +11,7 @@ export default async function RecordsPage() {
   return (
     <MainLayout title="Measurement Records">
       <MainLayout.Header>
-        <Link href="/records/new">
+        <Link href="/">
           <Button leftSection={<IconPlus size={16} />}>New Measurement</Button>
         </Link>
       </MainLayout.Header>

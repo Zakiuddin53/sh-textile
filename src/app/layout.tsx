@@ -30,9 +30,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-mantine-color-scheme="light">
       <head>
-        <ColorSchemeScript defaultValue="light" />
+        <ColorSchemeScript defaultColorScheme="light" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
@@ -40,6 +40,7 @@ export default function RootLayout({
       >
         <MantineProvider
           forceColorScheme="light"
+          defaultColorScheme="light"
           theme={{
             primaryColor: "blue",
             fontFamily: "var(--font-geist-sans)",

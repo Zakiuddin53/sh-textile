@@ -19,6 +19,7 @@
     "@mantine/nprogress": "^7.14.0",
     "@prisma/client": "^5.22.0",
     "@tabler/icons-react": "^3.21.0",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "next": "15.0.3",
     "prisma": "^5.22.0",

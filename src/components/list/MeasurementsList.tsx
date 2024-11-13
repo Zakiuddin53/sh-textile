@@ -3,6 +3,7 @@
 import { Table, Text, Badge, Button, Group } from "@mantine/core";
 import { IconEdit, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
+import { format } from 'date-fns';
 
 interface Measurement {
   id: number;
@@ -32,12 +33,12 @@ export default function MeasurementsList({
     <Table highlightOnHover>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th>Order #</Table.Th>
-          <Table.Th>Client Name</Table.Th>
-          <Table.Th>Phone</Table.Th>
-          <Table.Th>Address</Table.Th>
-          <Table.Th>Date</Table.Th>
-          <Table.Th>Actions</Table.Th>
+          <Table.Th c="gray.7">Order #</Table.Th>
+          <Table.Th c="gray.7">Client Name</Table.Th>
+          <Table.Th c="gray.7">Phone</Table.Th>
+          <Table.Th c="gray.7">Address</Table.Th>
+          <Table.Th c="gray.7">Date</Table.Th>
+          <Table.Th c="gray.7">Actions</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -46,11 +47,11 @@ export default function MeasurementsList({
             <Table.Td>
               <Badge color="blue">{measurement.orderNumber}</Badge>
             </Table.Td>
-            <Table.Td>{measurement.username}</Table.Td>
-            <Table.Td>{measurement.phone}</Table.Td>
-            <Table.Td>{measurement.address}</Table.Td>
-            <Table.Td>
-              {new Date(measurement.createdAt).toLocaleDateString()}
+            <Table.Td c="gray.7">{measurement.username}</Table.Td>
+            <Table.Td c="gray.7">{measurement.phone}</Table.Td>
+            <Table.Td c="gray.7">{measurement.address}</Table.Td>
+            <Table.Td c="gray.7">
+              {format(new Date(measurement.createdAt), 'MMM dd, yyyy')}
             </Table.Td>
             <Table.Td>
               <Group gap="xs">
