@@ -1,5 +1,5 @@
 import { getMeasurements } from "@/actions/measurements";
-import { MeasurementsList } from "@/components/list/MeasurementsList";
+import MeasurementsList from "@/components/list/MeasurementsList";
 import { MainLayout } from "@/components/MainLayout/MainLayout";
 import { Button } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
@@ -11,10 +11,8 @@ export default async function RecordsPage() {
   return (
     <MainLayout title="Measurement Records">
       <MainLayout.Header>
-        <Link href="/">
-          <Button leftSection={<IconPlus size={16} />}>
-            New Measurement
-          </Button>
+        <Link href="/records/new">
+          <Button leftSection={<IconPlus size={16} />}>New Measurement</Button>
         </Link>
       </MainLayout.Header>
 

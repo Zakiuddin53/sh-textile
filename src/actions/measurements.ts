@@ -106,23 +106,3 @@ export async function updateMeasurement(id: number, data: unknown) {
     };
   }
 }
-
-export async function deleteMeasurement(id: number) {
-  try {
-    await prisma.clientMeasurement.delete({
-      where: { id },
-    });
-
-    revalidatePath("/records");
-
-    return {
-      success: true,
-    };
-  } catch (error) {
-    console.error("Failed to delete measurement:", error);
-    return {
-      success: false,
-      error: "Failed to delete measurement",
-    };
-  }
-}

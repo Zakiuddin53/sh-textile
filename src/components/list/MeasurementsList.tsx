@@ -17,7 +17,9 @@ interface MeasurementsListProps {
   measurements: Measurement[];
 }
 
-export function MeasurementsList({ measurements }: MeasurementsListProps) {
+export default function MeasurementsList({
+  measurements,
+}: MeasurementsListProps) {
   if (!measurements.length) {
     return (
       <Text c="dimmed" ta="center" py="xl">
@@ -27,7 +29,7 @@ export function MeasurementsList({ measurements }: MeasurementsListProps) {
   }
 
   return (
-    <Table highlightOnHover c="gray.7">
+    <Table highlightOnHover>
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Order #</Table.Th>
@@ -44,15 +46,15 @@ export function MeasurementsList({ measurements }: MeasurementsListProps) {
             <Table.Td>
               <Badge color="blue">{measurement.orderNumber}</Badge>
             </Table.Td>
-            <Table.Td c="gray.7">{measurement.username}</Table.Td>
-            <Table.Td c="gray.7">{measurement.phone}</Table.Td>
-            <Table.Td c="gray.7">{measurement.address}</Table.Td>
-            <Table.Td c="gray.7">
+            <Table.Td>{measurement.username}</Table.Td>
+            <Table.Td>{measurement.phone}</Table.Td>
+            <Table.Td>{measurement.address}</Table.Td>
+            <Table.Td>
               {new Date(measurement.createdAt).toLocaleDateString()}
             </Table.Td>
             <Table.Td>
               <Group gap="xs">
-                <Link href={`/measurements/${measurement.id}`}>
+                <Link href={`/records/${measurement.id}`}>
                   <Button
                     variant="subtle"
                     size="compact-sm"
@@ -61,7 +63,7 @@ export function MeasurementsList({ measurements }: MeasurementsListProps) {
                     View
                   </Button>
                 </Link>
-                <Link href={`/measurements/${measurement.id}/edit`}>
+                <Link href={`/records/${measurement.id}/edit`}>
                   <Button
                     variant="subtle"
                     size="compact-sm"
