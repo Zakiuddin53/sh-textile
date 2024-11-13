@@ -1,8 +1,19 @@
 import { Flex, Stack, StackProps, StyleProp, Title } from "@mantine/core";
 import React from "react";
 
-interface MainLayoutProps extends React.PropsWithChildren {
+interface MainLayoutProps {
   title: string;
+  children: React.ReactNode;
+}
+
+interface HeaderProps {
+  justify?: StyleProp<React.CSSProperties["justifyContent"]>;
+  children: React.ReactNode;
+}
+
+interface ContentProps {
+  gap?: StackProps["gap"];
+  children: React.ReactNode;
 }
 
 const contentStyles = {
@@ -11,7 +22,12 @@ const contentStyles = {
   padding: "2.5rem",
 } as const;
 
-export function MainLayout({ children, title }: Readonly<MainLayoutProps>) {
+interface MainLayoutComponent extends React.FC<MainLayoutProps> {
+  Header: React.FC<HeaderProps>;
+  Content: React.FC<ContentProps>;
+}
+
+const MainLayout: MainLayoutComponent = ({ children, title }) => {
   return (
     <Stack p="md">
       <Title order={3} c="black">
@@ -20,22 +36,22 @@ export function MainLayout({ children, title }: Readonly<MainLayoutProps>) {
       {children}
     </Stack>
   );
-}
-
-MainLayout.Header = function Header(
-  props: React.PropsWithChildren<{
-    justify?: StyleProp<React.CSSProperties["justifyContent"]>;
-  }>
-) {
-  const justifyContent = props.justify || "space-between";
-  return <Flex justify={justifyContent}>{props.children}</Flex>;
 };
 
-MainLayout.Content = function Content(props: React.PropsWithChildren<{ gap?: StackProps["gap"] }>) {
-  const gapValue = props.gap || "xl";
+MainLayout.Header = function Header({ children, justify = "space-between" }: HeaderProps) {
+  return <Flex justify={justify}>{children}</Flex>;
+};
+
+MainLayout.Content = function Content({ children, gap = "xl" }: ContentProps) {
   return (
-    <Stack style={contentStyles} gap={gapValue}>
-      {props.children}
+    <Stack style={contentStyles} gap={gap}>
+      {children}
     </Stack>
   );
 };
+
+MainLayout.displayName = "MainLayout";
+MainLayout.Header.displayName = "MainLayout.Header";
+MainLayout.Content.displayName = "MainLayout.Content";
+
+export { MainLayout };
