@@ -1,7 +1,6 @@
 export interface IClientMeasurement {
+  orderNumber: string;
   username: string;
-  email: string;
-  image: string;
   phone: string;
   address: string;
   // Sherwani measurements

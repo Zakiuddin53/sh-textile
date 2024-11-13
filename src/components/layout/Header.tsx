@@ -1,6 +1,6 @@
 import { Group, Container, Title, Button } from "@mantine/core";
 import Link from "next/link";
-import { IconDatabase } from "@tabler/icons-react";
+import { IconDatabase, IconRuler } from "@tabler/icons-react";
 
 export function Header() {
   return (
@@ -15,8 +15,12 @@ export function Header() {
 
           <Group>
             <Link href="/" className="no-underline">
-              <Button variant="filled" color="blue">
-                Client Measurement
+              <Button
+                variant="filled"
+                color="blue"
+                leftSection={<IconRuler size={20} />}
+              >
+                New Measurement
               </Button>
             </Link>
 
@@ -26,7 +30,7 @@ export function Header() {
                 color="gray"
                 leftSection={<IconDatabase size={20} />}
               >
-                Client Records
+                Records
               </Button>
             </Link>
           </Group>
