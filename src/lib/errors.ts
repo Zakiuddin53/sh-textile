@@ -26,4 +26,14 @@ export const ApiError = {
     message: "Database operation failed",
     details,
   }),
+
+  MEASUREMENT_ERROR: (action: string) => ({
+    code: "MEASUREMENT_ERROR",
+    message: `Failed to ${action} measurement`,
+  }),
+
+  MEASUREMENT_NOT_FOUND: () => ({
+    code: "MEASUREMENT_NOT_FOUND",
+    message: "Measurement record not found",
+  }),
 };

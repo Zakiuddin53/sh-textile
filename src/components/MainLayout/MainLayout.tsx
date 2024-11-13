@@ -5,7 +5,6 @@ interface MainLayoutProps extends React.PropsWithChildren {
   title: string;
 }
 
-// Define styles outside the component to ensure consistency
 const contentStyles = {
   borderRadius: ".375rem",
   backgroundColor: "white",
@@ -28,15 +27,11 @@ MainLayout.Header = function Header(
     justify?: StyleProp<React.CSSProperties["justifyContent"]>;
   }>
 ) {
-  // Use a default value consistently
   const justifyContent = props.justify || "space-between";
   return <Flex justify={justifyContent}>{props.children}</Flex>;
 };
 
-MainLayout.Content = function Content(
-  props: React.PropsWithChildren<{ gap?: StackProps["gap"] }>
-) {
-  // Use a default value consistently
+MainLayout.Content = function Content(props: React.PropsWithChildren<{ gap?: StackProps["gap"] }>) {
   const gapValue = props.gap || "xl";
   return (
     <Stack style={contentStyles} gap={gapValue}>

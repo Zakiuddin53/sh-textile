@@ -1,20 +1,13 @@
-// This is a server component by default (no 'use client' needed)
 import { getMeasurementById } from "@/actions/measurements";
 import { MainLayout } from "@/components/MainLayout/MainLayout";
-import { Button, Group, Paper, Text, Title } from "@mantine/core";
+import { MeasurementDetails } from "@/components/measurements/MeasurementDetails";
+import { Button, Group, Text } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MeasurementDetails } from "./MeasurementDetails";
 
-export default async function MeasurementDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { data: measurement, success } = await getMeasurementById(
-    Number(params.id)
-  );
+export default async function MeasurementDetailsPage({ params }: { params: { id: string } }) {
+  const { data: measurement, success } = await getMeasurementById(Number(params.id));
 
   if (!success || !measurement) {
     notFound();
