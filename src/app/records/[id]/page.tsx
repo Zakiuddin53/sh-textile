@@ -27,7 +27,7 @@ export default async function MeasurementDetailsPage(
             Order #{measurement.orderNumber || "-"}
           </Text>
         </Group>
-        <Link href={`/records/${params.id}/edit`}>
+        <Link href={`/records/${measurement.id}/edit`}>
           <Button leftSection={<IconEdit size={16} />}>Edit</Button>
         </Link>
       </MainLayout.Header>
