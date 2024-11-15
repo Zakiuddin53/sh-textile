@@ -3,11 +3,13 @@ import { EditMeasurementForm } from "@/components/forms/EditMeasurementForm";
 import { MainLayout } from "@/components/MainLayout/MainLayout";
 import { notFound } from "next/navigation";
 
-export default async function EditMeasurementPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function EditMeasurementPage(
+  props: Readonly<{
+    params: Promise<{ id: string }>;
+  }>
+) {
+  const params = await props.params;
+
   const { data: measurement, success } = await getMeasurementById(
     Number(params.id)
   );

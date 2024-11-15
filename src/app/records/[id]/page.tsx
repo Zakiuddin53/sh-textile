@@ -6,8 +6,14 @@ import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default async function MeasurementDetailsPage({ params }: { params: { id: string } }) {
-  const { data: measurement, success } = await getMeasurementById(Number(params.id));
+export default async function MeasurementDetailsPage(
+  props: Readonly<{ params: Promise<{ id: string }> }>
+) {
+  const params = await props.params;
+
+  const { data: measurement, success } = await getMeasurementById(
+    Number(params.id)
+  );
 
   if (!success || !measurement) {
     notFound();
