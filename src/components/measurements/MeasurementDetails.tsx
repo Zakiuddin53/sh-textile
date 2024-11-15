@@ -1,24 +1,8 @@
 "use client";
 
-import { Grid, Paper, Text, Title, Group } from "@mantine/core";
+import { Grid, Paper, Text, Title, Group, Table } from "@mantine/core";
 import { MeasurementFormValues } from "@/lib/validations/measurement";
-import { IconHash, IconPhone, IconMapPin, IconRuler2 } from "@tabler/icons-react";
-
-function MeasurementItem({ label, value, icon }: { label: string; value: string | null; icon?: React.ReactNode }) {
-  return (
-    <Grid.Col span={1}>
-      <Group gap="xs" c="gray.5" mb={4}>
-        {icon}
-        <Text size="sm" fw={400} c="gray.5" mb={4}>
-          {label}
-        </Text>
-      </Group>
-      <Text size="lg" fw={600} c="grey">
-        {value || "-"}
-      </Text>
-    </Grid.Col>
-  );
-}
+import { IconPhone, IconMapPin, IconRuler2 } from "@tabler/icons-react";
 
 interface MeasurementDetailsProps {
   measurement: MeasurementFormValues & { id: number };
@@ -28,94 +12,212 @@ export function MeasurementDetails({ measurement }: MeasurementDetailsProps) {
   return (
     <Grid>
       <Grid.Col span={12}>
-        <Paper p="xl" withBorder radius="md">
-          <Title order={2} mb="xl" c="dark.9" fw={600}>
-            Client Details
-          </Title>
-          <Grid columns={2} gutter="xl">
-            <MeasurementItem label="Name" value={measurement.username} />
-            <MeasurementItem label="Order Number" value={measurement.orderNumber} icon={<IconHash size={16} />} />
-            <MeasurementItem label="Phone" value={measurement.phone} icon={<IconPhone size={16} />} />
-            <MeasurementItem label="Address" value={measurement.address} icon={<IconMapPin size={16} />} />
-          </Grid>
-        </Paper>
+        <Table striped highlightOnHover withTableBorder withColumnBorders>
+          <Table.Tbody>
+            <Table.Tr>
+              <Table.Td>
+                <Group gap="xs">
+                  <Text fw={500} c="dark.9">
+                    Name
+                  </Text>
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text c="dark.9">{measurement.username || "-"}</Text>
+              </Table.Td>
+              <Table.Td>
+                <Group gap="xs">
+                  <Text fw={500} c="dark.9">
+                    Order Number
+                  </Text>
+                </Group>
+              </Table.Td>
+              <Table.Td c="dark.9">{measurement.orderNumber || "-"}</Table.Td>
+            </Table.Tr>
+            <Table.Tr>
+              <Table.Td>
+                <Group gap="xs">
+                  <IconPhone size={16} color="black" />
+                  <Text fw={500} c="dark.9">
+                    Phone
+                  </Text>
+                </Group>
+              </Table.Td>
+              <Table.Td c="dark.9">{measurement.phone || "-"}</Table.Td>
+              <Table.Td>
+                <Group gap="xs">
+                  <IconMapPin size={16} color="black" />
+                  <Text fw={500} c="dark.9">
+                    Address
+                  </Text>
+                </Group>
+              </Table.Td>
+              <Table.Td c="dark.9">{measurement.address || "-"}</Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
+        </Table>
       </Grid.Col>
 
       <Grid.Col span={6}>
-        <Paper p="xl" withBorder radius="md">
+        <Paper p="xl">
           <Group mb="xl" justify="center">
-            <IconRuler2 size={20} />
+            <IconRuler2 size={20} color="black" />
             <Title order={2} c="dark.9" fw={600}>
               Sherwani Measurements
             </Title>
           </Group>
-          <Grid columns={2} gutter="xl">
-            <MeasurementItem label="Length" value={measurement.sherwaniLength} />
-            <MeasurementItem label="Chest" value={measurement.sherwaniChest} />
-            <MeasurementItem label="Blow Chest" value={measurement.sherwaniBlowChest} />
-            <MeasurementItem label="Waist" value={measurement.sherwaniWaist} />
-            <MeasurementItem label="Hip" value={measurement.sherwaniHip} />
-            <MeasurementItem label="Sleeve" value={measurement.sherwaniSleeve} />
-            <MeasurementItem label="Neck" value={measurement.sherwaniNeck} />
-            <MeasurementItem label="Shoulder" value={measurement.sherwaniShoulder} />
-            <MeasurementItem label="Cap" value={measurement.sherwaniCap} />
-            <MeasurementItem label="Full Height" value={measurement.sherwaniFullHeight} />
-          </Grid>
+          <Table striped highlightOnHover withTableBorder withColumnBorders>
+            <Table.Thead></Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Length</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.sherwaniLength || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Chest</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.sherwaniChest || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Blow Chest</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.sherwaniBlowChest || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              {/* Add other Sherwani measurements similarly */}
+            </Table.Tbody>
+          </Table>
         </Paper>
       </Grid.Col>
 
       <Grid.Col span={6}>
-        <Paper p="xl" withBorder radius="md">
+        <Paper p="xl">
           <Group mb="xl" justify="center">
-            <IconRuler2 size={20} />
+            <IconRuler2 size={20} color="black" />
             <Title order={2} c="dark.9" fw={600}>
               Coat Measurements
             </Title>
           </Group>
-          <Grid columns={2} gutter="xl">
-            <MeasurementItem label="Length" value={measurement.coatLength} />
-            <MeasurementItem label="Chest" value={measurement.coatChest} />
-            <MeasurementItem label="Blow Chest" value={measurement.coatBlowChest} />
-            <MeasurementItem label="Waist" value={measurement.coatWaist} />
-            <MeasurementItem label="Hip" value={measurement.coatHip} />
-            <MeasurementItem label="Sleeve" value={measurement.coatSleeve} />
-            <MeasurementItem label="Neck" value={measurement.coatNeck} />
-            <MeasurementItem label="Shoulder" value={measurement.coatShoulder} />
-            <MeasurementItem label="Cap" value={measurement.coatCap} />
-            <MeasurementItem label="Full Height" value={measurement.coatFullHeight} />
-          </Grid>
+          <Table striped highlightOnHover withTableBorder withColumnBorders>
+            <Table.Thead></Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Length</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.coatLength || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Chest</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.coatChest || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Blow Chest</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.coatBlowChest || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              {/* Add other Coat measurements similarly */}
+            </Table.Tbody>
+          </Table>
         </Paper>
       </Grid.Col>
 
+      {/* Similar pattern for Trozen and Pant measurements */}
       <Grid.Col span={6}>
-        <Paper p="xl" withBorder radius="md">
+        <Paper p="xl">
           <Group mb="xl" justify="center">
-            <IconRuler2 size={20} />
+            <IconRuler2 size={20} color="black" />
             <Title order={2} c="dark.9" fw={600}>
               Trozen Measurements
             </Title>
           </Group>
-          <Grid columns={2} gutter="xl">
-            <MeasurementItem label="Length" value={measurement.trozenLength} />
-            <MeasurementItem label="Mohri" value={measurement.trozenMohri} />
-          </Grid>
+          <Table striped highlightOnHover withTableBorder withColumnBorders>
+            <Table.Thead></Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Length</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.trozenLength || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Mohri</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.trozenMohri || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
+          </Table>
         </Paper>
       </Grid.Col>
 
       <Grid.Col span={6}>
-        <Paper p="xl" withBorder radius="md">
+        <Paper p="xl">
           <Group mb="xl" justify="center">
-            <IconRuler2 size={20} />
+            <IconRuler2 size={20} color="black" />
             <Title order={2} c="dark.9" fw={600}>
               Pant Measurements
             </Title>
           </Group>
-          <Grid columns={2} gutter="xl">
-            <MeasurementItem label="Length" value={measurement.pantLength} />
-            <MeasurementItem label="Waist" value={measurement.pantWaist} />
-            <MeasurementItem label="Thigh" value={measurement.pantThigh} />
-            <MeasurementItem label="Bottom" value={measurement.pantBottom} />
-          </Grid>
+          <Table striped highlightOnHover withTableBorder withColumnBorders>
+            <Table.Thead></Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Length</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.pantLength || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Waist</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.pantWaist || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Thigh</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.pantThigh || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>
+                  <Text c="dark.9">Bottom</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text c="dark.9">{measurement.pantBottom || "-"}</Text>
+                </Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
+          </Table>
         </Paper>
       </Grid.Col>
     </Grid>
