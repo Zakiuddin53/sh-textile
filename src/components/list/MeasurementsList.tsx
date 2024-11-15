@@ -1,30 +1,29 @@
 "use client";
 
-import { Table, Text, Badge, Button, Group, TextInput, Pagination, Stack } from "@mantine/core";
+import {
+  Table,
+  Text,
+  Badge,
+  Button,
+  Group,
+  TextInput,
+  Pagination,
+  Stack,
+} from "@mantine/core";
 import { IconEdit, IconEye, IconSearch } from "@tabler/icons-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import { MeasurementsListProps } from "@/interfaces/measurement";
 
-interface Measurement {
-  id: number;
-  createdAt: Date;
-  username: string;
-  orderNumber: string;
-  phone: string;
-  address: string;
-}
-
-interface MeasurementsListProps {
-  measurements: Measurement[];
-  total: number;
-  page: number;
-  search: string;
-}
-
-export default function MeasurementsList({ measurements, total, page, search: initialSearch }: MeasurementsListProps) {
+export default function MeasurementsList({
+  measurements,
+  total,
+  page,
+  search: initialSearch,
+}: MeasurementsListProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -70,7 +69,7 @@ export default function MeasurementsList({ measurements, total, page, search: in
         </Text>
       ) : (
         <>
-          <Table highlightOnHover>
+          <Table highlightOnHover verticalSpacing="xs">
             <Table.Thead>
               <Table.Tr>
                 <Table.Th c="gray.7">Order #</Table.Th>
@@ -84,22 +83,31 @@ export default function MeasurementsList({ measurements, total, page, search: in
             <Table.Tbody>
               {measurements.map((measurement) => (
                 <Table.Tr key={measurement.id}>
-                  <Table.Td>
-                    <Badge color="blue">{measurement.orderNumber}</Badge>
-                  </Table.Td>
+                  <Table.Td c="gray.7">{measurement.orderNumber}</Table.Td>
+
                   <Table.Td c="gray.7">{measurement.username}</Table.Td>
                   <Table.Td c="gray.7">{measurement.phone}</Table.Td>
                   <Table.Td c="gray.7">{measurement.address}</Table.Td>
-                  <Table.Td c="gray.7">{format(new Date(measurement.createdAt), "MMM dd, yyyy")}</Table.Td>
+                  <Table.Td c="gray.7">
+                    {format(new Date(measurement.createdAt), "MMM dd, yyyy")}
+                  </Table.Td>
                   <Table.Td>
                     <Group gap="xs">
                       <Link href={`/records/${measurement.id}`}>
-                        <Button variant="subtle" size="compact-sm" leftSection={<IconEye size={16} />}>
+                        <Button
+                          variant="subtle"
+                          size="compact-sm"
+                          leftSection={<IconEye size={16} />}
+                        >
                           View
                         </Button>
                       </Link>
                       <Link href={`/records/${measurement.id}/edit`}>
-                        <Button variant="subtle" size="compact-sm" leftSection={<IconEdit size={16} />}>
+                        <Button
+                          variant="subtle"
+                          size="compact-sm"
+                          leftSection={<IconEdit size={16} />}
+                        >
                           Edit
                         </Button>
                       </Link>
@@ -112,7 +120,11 @@ export default function MeasurementsList({ measurements, total, page, search: in
 
           {total > 10 && (
             <Group justify="center">
-              <Pagination total={Math.ceil(total / 10)} value={page} onChange={handlePageChange} />
+              <Pagination
+                total={Math.ceil(total / 10)}
+                value={page}
+                onChange={handlePageChange}
+              />
             </Group>
           )}
         </>
