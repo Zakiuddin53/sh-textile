@@ -1,36 +1,52 @@
 import { Group, Container, Title, Button } from "@mantine/core";
 import Link from "next/link";
-import { IconDatabase, IconRuler } from "@tabler/icons-react";
+import Image from "next/image";
 
 export function Header() {
   return (
-    <header className="border-b border-gray-200 py-6">
+    <header className="border-b border-gray-200 py-4">
       <Container size="lg">
         <Group justify="space-between" align="center">
           <Link href="/" className="no-underline">
-            <Title order={2} c="blue">
-              SH TEXTILE
-            </Title>
+            <Group align="center" gap="sm">
+              <Image
+                src="/logo.jpeg"
+                alt="Mehdi Hassan Logo"
+                height={50}
+                width={50}
+                priority
+                style={{ width: "auto", height: "50px" }}
+              />
+              <Title
+                order={2}
+                className="font-arabic"
+                style={{ fontSize: "1.8rem", color: "black" }}
+              >
+                SH Textiles
+              </Title>
+            </Group>
           </Link>
 
           <Group>
             <Link href="/" className="no-underline">
               <Button
-                variant="filled"
-                color="blue"
-                leftSection={<IconRuler size={20} />}
+                variant="light"
+                color="dark"
+                size="md"
+                className="font-medium"
               >
-                New Measurement
+                Client Measurement
               </Button>
             </Link>
 
             <Link href="/records" className="no-underline">
               <Button
-                variant="outline"
-                color="gray"
-                leftSection={<IconDatabase size={20} />}
+                variant="light"
+                color="dark"
+                size="md"
+                className="font-medium"
               >
-                Records
+                Client Records
               </Button>
             </Link>
           </Group>
