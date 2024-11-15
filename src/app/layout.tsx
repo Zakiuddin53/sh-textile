@@ -34,10 +34,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="light" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
-        style={{ backgroundColor: "#f3f4f6" }}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`} style={{ backgroundColor: "#f3f4f6" }}>
         <MantineProvider
           forceColorScheme="light"
           defaultColorScheme="light"
