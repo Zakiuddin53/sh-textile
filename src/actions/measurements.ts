@@ -12,32 +12,55 @@ type MeasurementListItem = Pick<
   "id" | "createdAt" | "username" | "orderNumber" | "phone" | "address"
 >;
 
-export async function getMeasurements(): Promise<
-  ApiResponse<MeasurementListItem[]>
+export async function getMeasurements(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+}): Promise<
+  ApiResponse<{ measurements: MeasurementListItem[]; total: number }>
 > {
-  const select = {
-    id: true,
-    createdAt: true,
-    username: true,
-    orderNumber: true,
-    phone: true,
-    address: true,
-  };
+  const page = params?.page || 1;
+  const limit = params?.limit || 10;
+  const skip = (page - 1) * limit;
+  const search = params?.search?.trim() || "";
 
-  const measurements = await prisma.clientMeasurement
-    .findMany({
-      orderBy: { createdAt: "desc" },
-      select,
-    })
-    .catch((error) => {
-      console.error("Database error:", error);
-      throw ApiError.DATABASE_ERROR(error);
-    });
+  const where = search
+    ? {
+        OR: [
+          { username: { contains: search, mode: "insensitive" as const } },
+          { orderNumber: { contains: search, mode: "insensitive" as const } },
+          { phone: { contains: search, mode: "insensitive" as const } },
+        ],
+      }
+    : {};
 
-  return {
-    success: true,
-    data: measurements,
-  };
+  try {
+    const [measurements, total] = await Promise.all([
+      prisma.clientMeasurement.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+        select: {
+          id: true,
+          createdAt: true,
+          username: true,
+          orderNumber: true,
+          phone: true,
+          address: true,
+        },
+      }),
+      prisma.clientMeasurement.count({ where }),
+    ]);
+
+    return {
+      success: true,
+      data: { measurements, total },
+    };
+  } catch (error) {
+    console.error("Database error:", error);
+    throw ApiError.DATABASE_ERROR(error);
+  }
 }
 
 export async function getMeasurementById(

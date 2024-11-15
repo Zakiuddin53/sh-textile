@@ -5,8 +5,21 @@ import { Button } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 
-export default async function RecordsPage() {
-  const { data: measurements = [] } = await getMeasurements();
+export default async function RecordsPage({
+  searchParams,
+}: {
+  searchParams: { page?: string; search?: string };
+}) {
+  const page = Number(searchParams.page) || 1;
+  const search = searchParams.search || "";
+
+  const { data } = await getMeasurements({
+    page,
+    limit: 10,
+    search,
+  });
+
+  const { measurements = [], total = 0 } = data || {};
 
   return (
     <MainLayout title="Measurement Records">
@@ -17,7 +30,12 @@ export default async function RecordsPage() {
       </MainLayout.Header>
 
       <MainLayout.Content>
-        <MeasurementsList measurements={measurements} />
+        <MeasurementsList
+          measurements={measurements}
+          total={total}
+          page={page}
+          search={search}
+        />
       </MainLayout.Content>
     </MainLayout>
   );
