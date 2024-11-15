@@ -1,48 +1,20 @@
 "use client";
 
-import {
-  Table,
-  Text,
-  Badge,
-  Button,
-  Group,
-  TextInput,
-  Pagination,
-  Stack,
-} from "@mantine/core";
-import { IconEdit, IconEye, IconSearch } from "@tabler/icons-react";
+import { Table, Text, Button, Group, Stack, Pagination } from "@mantine/core";
+import { IconEdit, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "@mantine/hooks";
-import { useEffect, useState } from "react";
 import { MeasurementsListProps } from "@/interfaces/measurement";
 
 export default function MeasurementsList({
   measurements,
   total,
   page,
-  search: initialSearch,
 }: MeasurementsListProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [searchValue, setSearchValue] = useState(initialSearch);
-
-  useEffect(() => {
-    setSearchValue(initialSearch);
-  }, [initialSearch]);
-
-  const handleSearch = useDebouncedCallback((value: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (value) {
-      params.set("search", value);
-      params.delete("page");
-    } else {
-      params.delete("search");
-    }
-    router.push(`${pathname}?${params.toString()}`);
-  }, 500);
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
@@ -52,17 +24,6 @@ export default function MeasurementsList({
 
   return (
     <Stack>
-      <TextInput
-        placeholder="Search by name, order number, or phone"
-        leftSection={<IconSearch size={16} />}
-        value={searchValue}
-        onChange={(e) => {
-          const value = e.currentTarget.value;
-          setSearchValue(value);
-          handleSearch(value);
-        }}
-      />
-
       {measurements.length === 0 ? (
         <Text c="gray.7" ta="center" py="xl">
           No measurements found.
