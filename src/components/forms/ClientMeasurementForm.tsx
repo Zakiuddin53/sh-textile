@@ -66,7 +66,7 @@ function ClientMeasurementForm() {
       } else {
         notifications.show({
           title: "Failed to Create Measurement",
-          message: result.error || "Unable to save measurement data",
+          message: "Unable to save measurement data",
           color: "red",
         });
       }

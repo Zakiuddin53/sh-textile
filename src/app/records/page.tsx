@@ -5,11 +5,22 @@ import { Button } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 
-export default async function RecordsPage({ searchParams: { page = "1", search = "" } }: { searchParams: { page?: string; search?: string } }) {
-  const { data: { measurements = [], total = 0 } = {} } = await getMeasurements({
-    page: Number(page),
+type Props = {
+  searchParams: Promise<{ page?: string; search?: string }>;
+};
+
+export default async function RecordsPage({ searchParams }: Props) {
+  const resolvedParams = await searchParams;
+  const page = Number(resolvedParams.page) || 1;
+  const search = resolvedParams.search || "";
+
+  const { data } = await getMeasurements({
+    page,
+    limit: 10,
     search,
   });
+
+  const { measurements = [], total = 0 } = data || {};
 
   return (
     <MainLayout title="Measurement Records">
@@ -20,7 +31,12 @@ export default async function RecordsPage({ searchParams: { page = "1", search =
       </MainLayout.Header>
 
       <MainLayout.Content>
-        <MeasurementsList measurements={measurements} total={total} page={Number(page)} search={search} />
+        <MeasurementsList
+          measurements={measurements}
+          total={total}
+          page={page}
+          search={search}
+        />
       </MainLayout.Content>
     </MainLayout>
   );
