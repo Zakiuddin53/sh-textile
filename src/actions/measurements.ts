@@ -7,32 +7,57 @@ import { measurementSchema } from "@/lib/validations/measurement";
 import { ClientMeasurement } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+interface PaginationParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+const buildSearchFilter = (search: string) => {
+  const searchFields = ["username", "orderNumber", "phone"] as const;
+  return search
+    ? {
+        OR: searchFields.map((field) => ({
+          [field]: { contains: search, mode: "insensitive" as const },
+        })),
+      }
+    : {};
+};
+
+const getPaginationParams = ({
+  page = 1,
+  limit = 10,
+  search = "",
+}: PaginationParams) => ({
+  skip: (page - 1) * limit,
+  take: limit,
+  where: buildSearchFilter(search.trim()),
+});
+
+const handleError = (error: unknown, context: string) => {
+  console.error(`${context}:`, error);
+  if (error && typeof error === "object") {
+    if ("name" in error && error.name === "ZodError") {
+      return ApiError.VALIDATION_ERROR(error);
+    }
+    if ("code" in error && error.code === "P2025") {
+      return ApiError.NOT_FOUND("Measurement");
+    }
+  }
+  return ApiError.DATABASE_ERROR(error);
+};
+
 type MeasurementListItem = Pick<
   ClientMeasurement,
   "id" | "createdAt" | "username" | "orderNumber" | "phone" | "address"
 >;
 
-export async function getMeasurements(params?: {
-  page?: number;
-  limit?: number;
-  search?: string;
-}): Promise<
+export async function getMeasurements(
+  params?: PaginationParams
+): Promise<
   ApiResponse<{ measurements: MeasurementListItem[]; total: number }>
 > {
-  const page = params?.page || 1;
-  const limit = params?.limit || 10;
-  const skip = (page - 1) * limit;
-  const search = params?.search?.trim() || "";
-
-  const where = search
-    ? {
-        OR: [
-          { username: { contains: search, mode: "insensitive" as const } },
-          { orderNumber: { contains: search, mode: "insensitive" as const } },
-          { phone: { contains: search, mode: "insensitive" as const } },
-        ],
-      }
-    : {};
+  const { skip, take, where } = getPaginationParams(params ?? {});
 
   try {
     const [measurements, total] = await Promise.all([
@@ -40,7 +65,7 @@ export async function getMeasurements(params?: {
         where,
         orderBy: { createdAt: "desc" },
         skip,
-        take: limit,
+        take,
         select: {
           id: true,
           createdAt: true,
@@ -53,13 +78,9 @@ export async function getMeasurements(params?: {
       prisma.clientMeasurement.count({ where }),
     ]);
 
-    return {
-      success: true,
-      data: { measurements, total },
-    };
+    return { success: true, data: { measurements, total } };
   } catch (error) {
-    console.error("Database error:", error);
-    throw ApiError.DATABASE_ERROR(error);
+    throw handleError(error, "Database error");
   }
 }
 
